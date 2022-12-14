@@ -1,0 +1,152 @@
+* {
+	box-sizing:border-box;
+}
+html,body {
+	background-color:#f6f5f4;
+	font-family:'Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
+	font:calc(12px + 0.5vw);
+	margin:0;
+}
+nav {
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	padding:4px 4px 0 8px;
+	background-color:#282c34;
+}
+a {
+	width:100%;
+	margin-right:4px;
+	border-radius:6px 6px 0 0;
+	padding:12px 0;
+	background-color:#484c54;
+	color:#61dafb;
+	text-align:center;
+	text-decoration:none;
+	cursor:pointer;
+}
+a:last-child {
+	width:auto;
+	padding:12px 16px;
+}
+a:hover {
+	background-color:#61dafb;
+	color:#282c34;
+}
+a:active,a:hover.active,.active {
+	background-color:white;
+	color:#282c34;
+}
+main {
+	margin:0 8px 8px;
+	box-shadow:1px 1px 4px #484c54;
+	border-radius:0 0 6px 6px;
+	padding:16px 1em 8px;
+	background-color:white;
+}
+main * {
+	margin:0 0 8px;
+}
+h1 {
+	font-size:1.3em;
+}
+h2,ul p {
+	font-size:1.1em;
+}
+form {
+	display:flex;
+	flex-wrap:wrap;
+}
+input,label,select,button,.list {
+	margin-right:4px;
+	border:1px solid #484c54;
+	border-radius:6px;
+	padding:8px;
+	font-size:1em;
+}
+.list {
+	background-color:#484c54;
+	color:white;
+}
+input:not([type=checkbox]) {
+	min-width:100%;
+}
+input[type=checkbox] {
+	margin:0 4px 0 0;
+	vertical-align:5%;
+}
+label,select,button,ol span {
+	background:#f6f5f4;
+}
+ol span {
+	margin-right:4px;
+	border-radius:6px;
+	padding:4px 8px;
+}
+select {
+	width:25%;
+	margin:0 0 8px auto;
+}
+input:not([type=checkbox]):focus,label:hover,select:hover,button:hover {
+	outline:2px solid #61dafb;
+	box-shadow:0 0 8px #61dafb;
+}
+label:active,select:active,button:active {
+	box-shadow:inset 1px 1px 1px #484c54;
+}
+ol {
+	padding:0 1em;
+}
+ul {
+	padding:0;
+}
+ul > li {
+	border-radius:6px;
+	padding:8px;
+	list-style-type:none;
+	background:#f6f5f4;
+}
+.critical {
+	background:#61dafb;
+}
+li.open, .important {
+	background:#cff3fd;
+}
+.minor {
+	background:#dddedf;
+}
+.trivial {
+	background:#babbbc;
+}
+li form {
+	margin:0;
+}
+li button,li select,li label,.list {
+	padding:4px 8px;
+}
+li span,ol p {
+	display:inline-block;
+	font-size:0.9em;
+	margin:0 0 8px 0;
+}
+li label {
+	display:inline-block;
+}
+li button {
+	float:right;
+	margin:0 0 0 4px;
+}
+li button:last-of-type {
+	margin:0 0 8px auto;
+}
+@media (min-width:640px) {
+	a {
+		width:auto;
+		padding:12px 3vw;
+	}
+	main {
+		width:80%;
+		max-width:960px;
+		margin:0 auto 8px;
+	}
+}
