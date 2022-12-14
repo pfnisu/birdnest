@@ -5,7 +5,32 @@ const express = require('express')
 const fs = require('fs')
 const xml = require('xml-js')
 
+// Calculate distance from birdnest
+const getRadius = (x, y) => {
+    const origo = 250000
+    return Math.sqrt((x - origo) * (x - origo) + (y - origo) * (y - origo))
+}
+
+// Fetch xml and return array of drones inside no-fly zone
+const getDrones = async () => {
+    let resp = await fetch('https://assignments.reaktor.com/birdnest/drones')
+    let json = xml.xml2js(await resp.text(), {compact: true})
+    return json.report.capture.drone.filter(drone =>
+        getRadius(drone.positionX._text, drone.positionY._text) < 100000)
+}
+
+// Add new offenders to db
+const updateList = async () => {
+    for (const drone of await getDrones()) {
+        const sn = drone.serialNumber._text
+        let resp = await fetch('https://assignments.reaktor.com/birdnest/pilots/' + sn)
+        let json = await resp.json()
+        console.log(json)
+    }
+}
+
 const main = async () => {
+    updateList()
     try {
         const app = express()
         app.use(express.json())
