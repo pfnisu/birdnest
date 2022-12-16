@@ -11,16 +11,16 @@ const views = [new Sightings(main), new Closest(main), new Map(main)]
 // Construct navigation from view titles
 const tabs = views.map(view => view.title)
 const nav = document.querySelector('nav')
-nav.innerHTML = tabs.reduce((cat, el) => cat + '<a>' + el + '</a>', '')
+nav.innerHTML = tabs.reduce((cat, el) => `${cat}<a>${el}</a>`, '')
 
 // Set view to activated tab 
-function setView(ev) {
-	const key = ev ? ev.target.textContent : tabs[0]
+const setView = async (ev) => {
+    const index = ev ? tabs.indexOf(ev.target.textContent) : 0
     const nav = document.querySelectorAll('nav a')
-	nav.forEach(el => el.className = '')
-	nav[tabs.indexOf(key)].className += 'active'
-	document.title = site + ' - ' + views[tabs.indexOf(key)].title
-    views[tabs.indexOf(key)].compose()
+    nav.forEach(el => el.className = '')
+    nav[index].className += 'active'
+    document.title = `${site} - ${views[index].title}`
+    await views[index].compose()
 }
 
 // Initialize view and setup a handler for nav
