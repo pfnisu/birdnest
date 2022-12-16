@@ -1,9 +1,9 @@
 require('dotenv').config()
 const fs = require('fs')
+const db = require('./db.js')
 const xml = require('xml-js')
 const URL = process.env.URL
 const TT = process.env.TIMEOUT
-const DB = process.env.DB
 const interval = 1000
 const origo = 250000
 const zone = 100000
@@ -37,8 +37,6 @@ const updateList = async (timeout) => {
 
     // Fetch every second until timeout hits 0
     const id = setInterval(async () => {
-        // Open a stream for writing
-        let stream = fs.createWriteStream(DB, {flags:'a'})
         if (--timeout < 0) {
             clearInterval(id)
             running = false
@@ -48,17 +46,14 @@ const updateList = async (timeout) => {
             const sn = drone.serialNumber._text
             let resp = await fetch(`${URL}pilots/${sn}`)
             let json = await resp.json()
-            // Format data for frontend
-            const data = {
+            await db.add({
                 id: json.pilotId,
                 name: `${json.firstName} ${json.lastName}`,
                 sn: sn,
                 radius: drone.radius,
-                date: drone.timestamp,
-            }
-            stream.write(`,\n${JSON.stringify(data)}`)
+                dt: drone.timestamp,
+            })
         }
-        stream.end()
     }, interval)
 }
 

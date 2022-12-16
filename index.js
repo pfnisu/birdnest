@@ -2,8 +2,9 @@ require('dotenv').config()
 const express = require('express')
 const fs = require('fs')
 const daemon = require('./daemon.js')
+const db = require('./db.js')
 const PORT = process.env.PORT
-const DB = process.env.DB
+const DB = './static2.json'
 
 const main = async () => {
     try {
@@ -16,11 +17,10 @@ const main = async () => {
         app.use(express.static('frontend/'))
 
         // API request starts daemon (if not running) and sends json
-        app.get('/api', (req, res) => {
+        app.get('/api', async (req, res) => {
             daemon()
-            fs.readFile(DB, async (err, file) => {
-                res.status(200).json(await JSON.parse(`{"pilots":[${file}]}`))
-            })
+            let json = await db.get()
+            res.status(200).json(json.rows)
         })
 
         const server = app.listen(PORT, () => {
