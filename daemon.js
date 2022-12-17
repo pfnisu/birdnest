@@ -32,6 +32,7 @@ const getDrones = async () => {
 const updateList = async (timeout) => {
     running = true
     console.log(`Daemon started for ${timeout} seconds`)
+    timeout = interval / timeout / 10
 
     // Fetch every second until timeout hits 0
     const id = setInterval(async () => {
