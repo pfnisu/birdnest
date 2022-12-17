@@ -1,19 +1,10 @@
+import {View} from './view.js'
 import {request} from './request.js'
 
 export function Map(root) {
-	this.title = 'Map'
-	this.head = 'Drones on map'
-    this.root = root
-    this.tree = document.createElement('div')
+    let view = new View(this, root, 'Map', 'Drones on map')
     this.compose = async () => {
-        // Replace root tree
-        this.root.replaceChildren(this.tree)
-    }
-    this.start = (interval) => {
-        if (!this.id) this.id = setInterval(this.compose, interval)
-    }
-    this.stop = () => {
-        clearInterval(this.id)
-        this.id = null
+        this.tree.innerHTML = `<h1>${this.head}</h1><div></div>`
+        view.compose()
     }
 }

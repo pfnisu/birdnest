@@ -1,10 +1,8 @@
+import {View} from './view.js'
 import {request} from './request.js'
 
 export function List(root) {
-    this.title = 'Drone list'
-    this.head = 'Drones seen in last 10 min'
-    this.root = root
-    this.tree = document.createElement('div')
+    let view = new View(this, root, 'Drone list', 'Drones seen in last 10 min')
     this.compose = async () => {
         let json = await request('api')
         this.tree.innerHTML = `<h1>${this.head}</h1><div></div>`
@@ -16,14 +14,6 @@ export function List(root) {
                 `<p>${pilot.radius}m:
                     ${pilot.name}, ${pilot.phone}, ${pilot.email}</p>`
         }
-        // Replace root tree
-        this.root.replaceChildren(this.tree)
-    }
-    this.start = (interval) => {
-        if (!this.id) this.id = setInterval(this.compose, interval)
-    }
-    this.stop = () => {
-        clearInterval(this.id)
-        this.id = null
+        view.compose()
     }
 }
