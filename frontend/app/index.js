@@ -1,11 +1,12 @@
 import {List} from './list.js'
 import {Map} from './map.js'
+import {Info} from './info.js'
 
 const site = 'Birdnest'
 
 // Define state objects for views
 const main = document.querySelector('main')
-const views = [new List(main), new Map(main)]
+const views = [new List(main), new Map(main), new Info(main)]
 
 // Construct navigation from view titles
 const tabs = views.map(view => view.title)
