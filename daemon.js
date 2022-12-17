@@ -1,10 +1,8 @@
 require('dotenv').config()
 const fs = require('fs')
-const db = require('./db.js')
 const xml = require('xml-js')
-const URL = process.env.URL
-const TT = process.env.TIMEOUT
-const interval = 1000
+const db = require('./db.js')
+const interval = 2000
 const origo = 250000
 const zone = 100000
 let running = false
@@ -16,7 +14,7 @@ const radius = (x, y) =>
 // Fetch xml and return array of drones inside no-fly zone
 const getDrones = async () => {
     try {
-        let resp = await fetch(`${URL}drones`)
+        let resp = await fetch(`${process.env.URL}drones`)
         let json = xml.xml2js(await resp.text(), {compact: true})
         return json.report.capture.drone.filter(drone => {
             drone.timestamp = json.report.capture._attributes.snapshotTimestamp
@@ -44,12 +42,17 @@ const updateList = async (timeout) => {
         }
         for (const drone of await getDrones()) {
             const sn = drone.serialNumber._text
-            let resp = await fetch(`${URL}pilots/${sn}`)
+            // TODO handle random 404
+            let resp = await fetch(`${process.env.URL}pilots/${sn}`)
             let json = await resp.json()
             await db.add({
                 id: json.pilotId,
                 name: `${json.firstName} ${json.lastName}`,
-                sn: sn,
+                phone: json.phoneNumber,
+                email: json.email,
+                // TODO map view needs coords: do a separate query
+                //x: drone.positionX,
+                //y: drone.positionY,
                 radius: drone.radius,
                 dt: drone.timestamp,
             })
@@ -58,7 +61,7 @@ const updateList = async (timeout) => {
 }
 
 // Start daemon if not running
-module.exports = (timeout = TT) => {
+module.exports = (timeout = process.env.TIMEOUT) => {
     !running
         ? updateList(timeout)
         : console.log('Daemon already running')

@@ -3,8 +3,6 @@ const express = require('express')
 const fs = require('fs')
 const daemon = require('./daemon.js')
 const db = require('./db.js')
-const PORT = process.env.PORT
-const DB = './static2.json'
 
 const main = async () => {
     try {
@@ -23,8 +21,8 @@ const main = async () => {
             res.status(200).json(json.rows)
         })
 
-        const server = app.listen(PORT, () => {
-            console.log('Listening on port ' + PORT)
+        const server = app.listen(process.env.PORT, () => {
+            console.log('Listening on port ' + process.env.PORT)
         })
         process.on('SIGINT', async () => {
             server.close(() => {

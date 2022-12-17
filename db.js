@@ -16,11 +16,11 @@ module.exports = {
     add: async (pilot) => {
         try {
             await db.query(
-                `insert into pilots values ($1, $2, $3, $4::decimal, $5::date)
+                `insert into pilots values ($1, $2, $3, $4, $5::decimal, $6::date)
                     on conflict (id)
-                    do update set radius = $4
-                    where pilots.radius > $4`,
-                [pilot.id, pilot.name, pilot.sn, pilot.radius, pilot.dt])
+                    do update set radius = $5
+                    where pilots.radius > $5`,
+                [pilot.id, pilot.name, pilot.phone, pilot.email, pilot.radius, pilot.dt])
             console.log('DB insert ok')
         } catch (e) {
             console.log(e)
@@ -29,7 +29,7 @@ module.exports = {
     // Get all rows newer than timestamp 'since'
     get: async (since = 0) => {
         try {
-            let res = await db.query('select * from pilots')
+            let res = await db.query('select name, phone, email, radius from pilots')
             console.log('DB select ok')
             return res
         } catch (e) {

@@ -2,7 +2,8 @@
 create table pilots (
     id character varying(12) primary key,
     name character varying(100) not null,
-    sn character varying(13) not null,
+    phone character varying(100) not null,
+    email character varying(100) not null,
     radius decimal not null,
     dt date not null
 );

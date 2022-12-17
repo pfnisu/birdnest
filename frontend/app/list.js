@@ -17,7 +17,7 @@ export function List(root) {
             for (const pilot of json) {
                 pilot.radius = parseInt(pilot.radius) / 1000
                 content.innerHTML +=
-                    `<p>${pilot.radius}m: ${pilot.name} (id: ${pilot.id})</p>`
+                    `<p>${pilot.radius}m: ${pilot.name}, ${pilot.phone}, ${pilot.email}</p>`
             }
         }
         // Replace root tree
