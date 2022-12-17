@@ -5,7 +5,7 @@ export function Info(root) {
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>Project information</h1>
-            <p>Repository available at: <a href=''>Github</a></p>
+            <p>Repository available at: <a href='https://github.com/pfnisu/birdnest'>https://github.com/pfnisu/birdnest</a></p>
             <p>Everything regarding project definition and requirements are &copy; Reaktor, Inc.</p>
             <p>Project assignment can be viewed at: <a href='https://assignments.reaktor.com/birdnest/'>https://assignments.reaktor.com/birdnest/</a></p>
             <h1>Licence and contact information</h1>
