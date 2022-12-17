@@ -1,7 +1,7 @@
 import {View} from './view.js'
 
 export function Info(root) {
-    let view = new View(this, root, 'Info', false)
+    const view = new View(this, root, 'Info', false)
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>Project information</h1>

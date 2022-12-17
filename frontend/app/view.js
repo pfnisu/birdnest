@@ -1,17 +1,18 @@
 // View template
-export function View(from, root, title = '', live = true) {
-    from.root = root
-    from.title = title
-    from.tree = document.createElement('div')
-    from.start = (interval) => {
-        if (live && !from.id) from.id = setInterval(from.compose, interval)
+export function View(target, root, title = '', live = true) {
+    target.root = root
+    target.title = title
+    target.tree = document.createElement('div')
+    // Reload logic is only spawned if view is live
+    target.start = (interval) => {
+        if (live && !target.id) target.id = setInterval(target.compose, interval)
     }
-    from.stop = () => {
-        clearInterval(from.id)
-        from.id = null
+    target.stop = () => {
+        clearInterval(target.id)
+        target.id = null
     }
+    // Call from target to replace root tree
     this.compose = () => {
-        // Replace root tree
-        from.root.replaceChildren(from.tree)
+        target.root.replaceChildren(target.tree)
     }
 }
