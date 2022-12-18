@@ -27,14 +27,14 @@ const getDrones = async () => {
 }
 
 // Add new offenders to db every second
-// TODO remove duplicates and old entries
-// TODO use proper datastore
-const updateList = async (timeout) => {
+const update = async (timeout) => {
     running = true
     console.log(`Daemon started for ${timeout} seconds`)
     timeout = interval / timeout / 10
+    // Purge old entries when starting daemon
+    await db.purge()
 
-    // Fetch every second until timeout hits 0
+    // Fetch with interval until timeout hits 0
     const id = setInterval(async () => {
         if (--timeout < 0) {
             clearInterval(id)
@@ -64,6 +64,6 @@ const updateList = async (timeout) => {
 // Start daemon if not running
 module.exports = (timeout = process.env.TIMEOUT) => {
     !running
-        ? updateList(timeout)
+        ? update(timeout)
         : console.log('Daemon already running')
 }

@@ -43,4 +43,18 @@ module.exports = {
             console.log(e)
         }
     },
+    // Delete all rows older than current time - limit
+    purge: async (limit = timespan) => {
+        try {
+            let before = new Date()
+            before.setMinutes(before.getMinutes() - limit)
+            let res = await db.query(
+                `delete from pilots where dt < $1`,
+                [before.toISOString()])
+            console.log(`DB delete before ${before} ok`)
+            return res
+        } catch (e) {
+            console.log(e)
+        }
+    },
 }
