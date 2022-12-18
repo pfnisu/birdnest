@@ -7,7 +7,7 @@ export function List(root) {
         let json = await request('api')
         this.tree.innerHTML = '<h1>Drones seen in last 10 min</h1><div></div>'
         const content = this.tree.querySelector('div')
-        json.sort((a, b) => a.radius > b.radius)
+        json.sort((a, b) => parseFloat(a.radius) > parseFloat(b.radius))
         for (const pilot of json) {
             pilot.radius = parseInt(pilot.radius) / 1000
             content.innerHTML +=
