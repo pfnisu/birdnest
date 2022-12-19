@@ -30,7 +30,6 @@ module.exports = {
                     where pilots.radius > $7`,
                 [pilot.id, pilot.name, pilot.phone, pilot.email,
                     pilot.x, pilot.y, pilot.radius, pilot.dt])
-            console.log('DB insert ok')
         } catch (e) {
             console.log(e)
         }
@@ -42,7 +41,6 @@ module.exports = {
                 `select name, x, y from pilots
                 where pilots.dt > $1`,
                 [timespan()])
-            console.log(`DB select coords ok`)
             return res
         } catch (e) {
             console.log(e)
@@ -55,7 +53,6 @@ module.exports = {
                 `select name, phone, email, radius from pilots
                 where pilots.dt > $1`,
                 [timespan()])
-            console.log(`DB select pilots ok`)
             return res
         } catch (e) {
             console.log(e)
@@ -67,7 +64,6 @@ module.exports = {
             let res = await db.query(
                 `delete from pilots where dt < $1`,
                 [timespan()])
-            console.log(`DB delete ok`)
             return res
         } catch (e) {
             console.log(e)

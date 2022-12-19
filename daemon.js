@@ -39,7 +39,6 @@ const update = async (timeout) => {
         try {
             for (const drone of await getDrones()) {
                 const sn = drone.serialNumber._text
-                // TODO handle random 404
                 let resp = await fetch(`${process.env.URL}pilots/${sn}`)
                 let json = await resp.json()
                 await db.add({
@@ -61,7 +60,5 @@ const update = async (timeout) => {
 
 // Start daemon if not running
 module.exports = (timeout = process.env.TIMEOUT) => {
-    !running
-        ? update(timeout)
-        : console.log('Daemon already running')
+    if (!running) update(timeout)
 }
