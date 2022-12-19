@@ -35,8 +35,21 @@ module.exports = {
             console.log(e)
         }
     },
+    // Get coordinates from rows newer than start of timespan
+    coords: async () => {
+        try {
+            let res = await db.query(
+                `select name, x, y from pilots
+                where pilots.dt > $1`,
+                [timespan()])
+            console.log(`DB select coords ok`)
+            return res
+        } catch (e) {
+            console.log(e)
+        }
+    },
     // Get pilot info from rows newer than start of timespan
-    get: async () => {
+    pilots: async () => {
         try {
             let res = await db.query(
                 `select name, phone, email, radius from pilots

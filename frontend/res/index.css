@@ -177,6 +177,10 @@ li button:last-of-type {
 button:last-of-type {
 	margin:0 0 8px auto;
 }
+canvas {
+    width:100%;
+	background-color:#f6f5f4;
+}
 @media (min-width:640px) {
 	nav a {
 		width:auto;

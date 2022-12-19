@@ -15,9 +15,11 @@ const main = async () => {
         app.use(express.static('frontend/'))
 
         // API request starts daemon (if not running) and sends json
-        app.get('/api', async (req, res) => {
+        app.get('/api/:query?', async (req, res) => {
             daemon()
-            let json = await db.get()
+            let json = req.params.query === 'coords'
+                ? await db.coords()
+                : await db.pilots()
             res.status(200).json(json.rows)
         })
 
