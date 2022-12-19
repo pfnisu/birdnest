@@ -11,7 +11,7 @@ export function Radar(root) {
         ctx.arc(x, y, radius, 0, 360)
         opaque ? ctx.fill() : ctx.stroke()
         ctx.font = '14px sans-serif'
-        if (name) ctx.fillText(name, x + 6, y + 4)
+        if (name) ctx.fillText(name, x + radius + 2, y + 4)
     }
     this.compose = async () => {
         let json = await request('api/coords')
@@ -20,8 +20,8 @@ export function Radar(root) {
         // Scale canvas 2x for better resolution
         this.canvas.height = this.canvas.width = 1000
         this.dot(500, 500, 'Monadikuikka')
-        this.dot(500, 500, null, false, 498)
-        this.dot(500, 500, null, false, 250)
+        this.dot(500, 500, '100m', false, 498)
+        this.dot(500, 500, '50m', false, 250)
         for (const pilot of json) {
             this.dot((pilot.x - 150000) / 200, (pilot.y - 150000) / 200, pilot.name)
         }
