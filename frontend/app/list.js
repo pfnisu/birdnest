@@ -2,10 +2,20 @@ import {View} from './view.js'
 import {request} from './request.js'
 
 export function List(root) {
-    const view = new View(this, root, 'Drone list')
+    const view = new View(this, root, 'Pilot list')
     this.compose = async () => {
-        let json = await request('api')
-        this.tree.innerHTML = '<h1>Drones seen in last 10 min</h1><div></div>'
+        let json = await request.http('api')
+        this.tree.innerHTML =
+            `<h1>Perimeter violations in last 10 min</h1>
+            <button>Toggle frequency (${request.interval / 1000} sec)</button>
+            <div></div>`
+        this.tree.querySelector('button').addEventListener('click', () => {
+            request.interval = request.interval == 2000 ? 10000 : 2000
+            // Stop old interval and start with new frequency
+            this.stop()
+            this.start(request.cookie('interval', request.interval))
+            this.compose()
+        })
         const content = this.tree.querySelector('div')
         json.sort((a, b) => parseFloat(a.radius) > parseFloat(b.radius))
         for (const pilot of json) {

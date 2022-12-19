@@ -13,7 +13,7 @@ export function Radar(root) {
         if (name) ctx.fillText(name, x + radius + 2, y + 6)
     }
     this.compose = async () => {
-        let json = await request('api/coords')
+        let json = await request.http('api/coords')
         this.tree.innerHTML =
             `<h1>Drone radar</h1>
             <p>Closest position of every detected drone</p>
