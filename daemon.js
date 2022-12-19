@@ -13,18 +13,13 @@ const radius = (x, y) =>
 
 // Fetch xml and return array of drones inside no-fly zone
 const getDrones = async () => {
-    try {
-        // TODO fails without connection
-        let resp = await fetch(`${process.env.URL}drones`)
-        let json = xml.xml2js(await resp.text(), {compact: true})
-        return json.report.capture.drone.filter(drone => {
-            drone.timestamp = json.report.capture._attributes.snapshotTimestamp
-            drone.radius = radius(drone.positionX._text, drone.positionY._text)
-            return drone.radius < zone
-        })
-    } catch (e) {
-        console.log(e)
-    }
+    let resp = await fetch(`${process.env.URL}drones`)
+    let json = xml.xml2js(await resp.text(), {compact: true})
+    return json.report.capture.drone.filter(drone => {
+        drone.timestamp = json.report.capture._attributes.snapshotTimestamp
+        drone.radius = radius(drone.positionX._text, drone.positionY._text)
+        return drone.radius < zone
+    })
 }
 
 // Add new offenders to db every interval until timeout hits 0
@@ -41,21 +36,25 @@ const update = async (timeout) => {
             running = false
             console.log('Daemon stopped')
         }
-        for (const drone of await getDrones()) {
-            const sn = drone.serialNumber._text
-            // TODO handle random 404
-            let resp = await fetch(`${process.env.URL}pilots/${sn}`)
-            let json = await resp.json()
-            await db.add({
-                id: json.pilotId,
-                name: `${json.firstName} ${json.lastName}`,
-                phone: json.phoneNumber,
-                email: json.email,
-                x: drone.positionX._text,
-                y: drone.positionY._text,
-                radius: drone.radius,
-                dt: drone.timestamp,
-            })
+        try {
+            for (const drone of await getDrones()) {
+                const sn = drone.serialNumber._text
+                // TODO handle random 404
+                let resp = await fetch(`${process.env.URL}pilots/${sn}`)
+                let json = await resp.json()
+                await db.add({
+                    id: json.pilotId,
+                    name: `${json.firstName} ${json.lastName}`,
+                    phone: json.phoneNumber,
+                    email: json.email,
+                    x: drone.positionX._text,
+                    y: drone.positionY._text,
+                    radius: drone.radius,
+                    dt: drone.timestamp,
+                })
+            }
+        } catch (e) {
+            console.log(e)
         }
     }, interval)
 }

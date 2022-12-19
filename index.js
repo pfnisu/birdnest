@@ -32,8 +32,8 @@ const main = async () => {
                 process.exit(1)
             })
         })
-    } catch (err) {
-        console.log(err)
+    } catch (e) {
+        console.log(e)
     }
 }
 main()
