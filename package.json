@@ -15,8 +15,5 @@
     "express": "^4.17.3",
     "xml-js": "^1.6.11",
     "pg": "^8.8.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
   }
 }
