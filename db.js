@@ -9,49 +9,52 @@ const db = new Pool({
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
 })
-const timespan = 10
+
+// Calculate timestamp with limit as minutes before current time
+const timespan = (limit = 10) => {
+    let ts = new Date()
+    ts.setMinutes(ts.getMinutes() - limit)
+    return ts.toISOString()
+}
 
 module.exports = {
-    // Unique add, return the new id if insert succeeded
-    // TODO error handling
-    // TODO use internal timestamps (db)
+    // Add unique pilots and update with closest radius
     add: async (pilot) => {
         try {
             await db.query(
-                `insert into pilots values ($1, $2, $3, $4, $5::decimal, $6::timestamp)
+                `insert into pilots values
+                    ($1, $2, $3, $4, $5::decimal, $6::decimal,
+                        $7::decimal, $8::timestamp)
                     on conflict (id)
-                    do update set radius = $5
-                    where pilots.radius > $5`,
-                [pilot.id, pilot.name, pilot.phone, pilot.email, pilot.radius, pilot.dt])
+                    do update set x = $5, y = $6, radius = $7
+                    where pilots.radius > $7`,
+                [pilot.id, pilot.name, pilot.phone, pilot.email,
+                    pilot.x, pilot.y, pilot.radius, pilot.dt])
             console.log('DB insert ok')
         } catch (e) {
             console.log(e)
         }
     },
-    // Get all rows newer than current time - limit
-    get: async (limit = timespan) => {
+    // Get pilot info from rows newer than start of timespan
+    get: async () => {
         try {
-            let since = new Date()
-            since.setMinutes(since.getMinutes() - limit)
             let res = await db.query(
                 `select name, phone, email, radius from pilots
                 where pilots.dt > $1`,
-                [since.toISOString()])
-            console.log(`DB select since ${since} ok`)
+                [timespan()])
+            console.log(`DB select pilots ok`)
             return res
         } catch (e) {
             console.log(e)
         }
     },
-    // Delete all rows older than current time - limit
-    purge: async (limit = timespan) => {
+    // Delete all rows older than timespan
+    purge: async () => {
         try {
-            let before = new Date()
-            before.setMinutes(before.getMinutes() - limit)
             let res = await db.query(
                 `delete from pilots where dt < $1`,
-                [before.toISOString()])
-            console.log(`DB delete before ${before} ok`)
+                [timespan()])
+            console.log(`DB delete ok`)
             return res
         } catch (e) {
             console.log(e)

@@ -4,6 +4,8 @@ create table pilots (
     name character varying(100) not null,
     phone character varying(100) not null,
     email character varying(100) not null,
+    x decimal not null,
+    y decimal not null,
     radius decimal not null,
     dt timestamp not null
 );
