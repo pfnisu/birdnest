@@ -14,6 +14,7 @@ const nav = document.querySelector('nav')
 nav.innerHTML = tabs.reduce((cat, el) => `${cat}<a>${el}</a>`, '')
 
 // Set view to activated tab 
+// TODO set cookie to save view and fetch interval
 const setView = async (ev) => {
     views.forEach(view => view.stop())
     const nav = document.querySelectorAll('nav a')
