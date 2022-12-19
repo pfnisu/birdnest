@@ -25,10 +25,6 @@ nav a {
 	text-decoration:none;
 	cursor:pointer;
 }
-nav img {
-    height:1em;
-    vertical-align:bottom;
-}
 nav a:hover {
 	background-color:#61dafb;
 	color:#282c34;
@@ -47,138 +43,27 @@ main {
 main * {
 	margin:0 0 8px;
 }
-footer p {
-    margin:0 8px;
-	font-size:0.9em;
-    text-align:right;
-}
-footer a {
-	color:#282c34;
-}
 h1 {
 	font-size:1.3em;
     border-bottom:1px solid #484c54;
 }
-li > h2 {
-    display:inline-block;
-    margin-right:8px;
-}
-h2,ul p {
-	font-size:1.1em;
-}
-table,span.score {
-    width:100%;
-}
-div {
-    overflow-x:auto;
-}
-tr.score td,span.score {
-	border-radius:6px;
-    padding:4px;
-	background-color:#f6f5f4;
-}
-tr.score td:not(:first-child) {
-    text-align:right;
-}
-thead,span label {
-    font-weight:bold;
-}
-form {
-	display:flex;
-	flex-wrap:wrap;
-}
-input,select,textarea,button,.tag {
-	margin-right:4px;
+button {
 	border:1px solid #484c54;
 	border-radius:6px;
-	padding:8px 4px;
+	padding:4px;
 	font-size:1em;
-}
-.tag {
-	background-color:#484c54;
-	color:white;
-}
-input:not([type=checkbox]),textarea {
-	min-width:100%;
-}
-input[type=checkbox] {
-	margin:0 4px 0 0;
-	vertical-align:5%;
-}
-.score input[type=number] {
-    float:right;
-    margin:2px auto 4px;
-}
-li.registration,select,button,ol span {
 	background:#f6f5f4;
 }
-ol span {
-	margin-right:4px;
-	border-radius:6px;
-	padding:4px 8px;
-}
-input[type=number],select {
-    min-width:25%;
-    width:25%;
-}
-input:not([type=checkbox]):focus,textarea:focus,select:hover,button:hover,button.sel,.ok {
+button:hover {
 	outline:2px solid #61dafb;
 	box-shadow:0 0 8px #61dafb;
 }
-.error {
-	outline:2px solid red;
-	box-shadow:0 0 8px #ba4c54;
-	border:1px solid #484c54;
-	border-radius:6px;
-	padding:8px;
-}
-select:active,button:active {
+button:active {
 	box-shadow:inset 1px 1px 1px #484c54;
-}
-ol {
-	padding:0 1em;
-}
-ul {
-	padding:0;
-}
-ul > li {
-	border-radius:6px;
-	padding:8px;
-	list-style-type:none;
-	background:#f6f5f4;
-}
-li a {
-    color:black;
-}
-li.ongoing,.under,tr.score td.under,button.sel,.ok {
-	background:#cff3fd;
-}
-li.complete,tr.score td.over {
-	background:#dddedf;
-}
-li form {
-	margin:0;
-}
-li button,li select,li label,li .tag,span.score {
-	padding:4px;
-}
-li span,ol p {
-	display:inline-block;
-	font-size:0.9em;
-	margin:0 0 8px 0;
-}
-li button,.right {
-	float:right;
-	margin:0 0 0 4px;
-}
-li button:last-of-type {
-	margin-left:4px;
-}
-button:last-of-type {
-	margin:0 0 8px auto;
 }
 canvas {
     width:100%;
+	border-radius:6px;
 	background-color:#f6f5f4;
 }
 @media (min-width:640px) {
@@ -186,7 +71,7 @@ canvas {
 		width:auto;
 		padding:12px 3vw;
 	}
-	main,footer {
+	main {
 		width:80%;
 		max-width:960px;
 		margin:0 auto 8px;
