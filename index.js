@@ -23,8 +23,8 @@ const main = async () => {
             res.status(200).json(json.rows)
         })
 
-        const server = app.listen(process.env.PORT, () => {
-            console.log('Listening on port ' + process.env.PORT)
+        const server = app.listen(process.env.PORT, process.env.HOST, () => {
+            console.log(`Listening ${process.env.HOST}:${process.env.PORT}`)
         })
         process.on('SIGINT', async () => {
             server.close(() => {
