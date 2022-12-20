@@ -19,28 +19,40 @@ const timespan = (limit = 10) => {
 }
 
 module.exports = {
-    // Add unique pilots and update with closest radius
-    add: async (pilot) => {
+    // Add unique drones, update latest timestamp and closest radius
+    addDrone: async (drone) => {
         try {
             await db.query(
-                `insert into pilots values
-                    ($1, $2, $3, $4, $5::decimal, $6::decimal,
-                        $7::decimal, $8::timestamp)
-                    on conflict (id)
-                    do update set x = $5, y = $6, radius = $7
-                    where pilots.radius > $7`,
-                [pilot.id, pilot.name, pilot.phone, pilot.email,
-                    pilot.x, pilot.y, pilot.radius, pilot.dt])
+                `with _ as (
+                    update drones set dt = $5 where sn = $1)
+                insert into drones values (
+                    $1, $2::decimal, $3::decimal, $4::decimal, $5::timestamp)
+                    on conflict (sn)
+                        do update set x = $2, y = $3, radius = $4
+                        where drones.radius > $4`,
+                [drone.sn, drone.x, drone.y, drone.radius, drone.dt])
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    // Add unique pilots
+    addPilot: async (pilot) => {
+        try {
+            await db.query(
+                `insert into pilots values ($1, $2, $3, $4, $5)
+                on conflict (id) do nothing`,
+                [pilot.id, pilot.name, pilot.phone, pilot.email, pilot.sn])
         } catch (e) {
             console.log(e)
         }
     },
     // Get coordinates from rows newer than start of timespan
-    coords: async () => {
+    getCoords: async () => {
         try {
             let res = await db.query(
-                `select name, x, y from pilots
-                where pilots.dt > $1`,
+                `select name, drones.x, drones.y from pilots
+                inner join drones on drones.sn = pilots.sn
+                where drones.dt > $1`,
                 [timespan()])
             return res
         } catch (e) {
@@ -48,22 +60,23 @@ module.exports = {
         }
     },
     // Get pilot info from rows newer than start of timespan
-    pilots: async () => {
+    getPilots: async () => {
         try {
             let res = await db.query(
-                `select name, phone, email, radius from pilots
-                where pilots.dt > $1`,
+                `select name, phone, email, drones.radius from pilots
+                inner join drones on drones.sn = pilots.sn
+                where drones.dt > $1`,
                 [timespan()])
             return res
         } catch (e) {
             console.log(e)
         }
     },
-    // Delete all rows older than timespan
+    // Delete all data older than timespan
     purge: async () => {
         try {
             let res = await db.query(
-                `delete from pilots where dt < $1`,
+                `delete from drones where dt < $1`, // Cascades to pilots
                 [timespan()])
             return res
         } catch (e) {

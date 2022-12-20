@@ -18,8 +18,8 @@ const main = async () => {
         app.get('/api/:query?', async (req, res) => {
             daemon()
             let json = req.params.query === 'coords'
-                ? await db.coords()
-                : await db.pilots()
+                ? await db.getCoords()
+                : await db.getPilots()
             res.status(200).json(json.rows)
         })
 
