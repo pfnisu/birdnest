@@ -19,13 +19,13 @@ export function Radar(root) {
             <p>Closest position of every detected drone</p>
             <canvas></canvas>`
         this.canvas = this.tree.querySelector('canvas')
-        // Scale canvas 2x for sensible resolution
-        this.canvas.height = this.canvas.width = 1000
-        this.dot(500, 500, '100m', false, 498)
-        this.dot(500, 500, '50m', false, 250)
-        this.dot(500, 500, 'Monadikuikka')
+        // Scale canvas to sensible resolution
+        this.canvas.height = this.canvas.width = 1120
+        this.dot(560, 560, '100m', false, 500)
+        this.dot(560, 560, '50m', false, 250)
+        this.dot(560, 560, 'Monadikuikka')
         for (const pilot of json) {
-            this.dot((pilot.x - 150000) / 200, (pilot.y - 150000) / 200, pilot.name)
+            this.dot((pilot.x - 138000) / 200, (pilot.y - 138000) / 200, pilot.name)
         }
         view.compose()
     }
