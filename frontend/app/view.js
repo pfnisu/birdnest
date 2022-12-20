@@ -7,10 +7,13 @@ export function View(target, root, title = '', live = true) {
     this.compose = () => {
         target.root.replaceChildren(target.tree)
     }
-    // Reload logic is only spawned if view is live
+    // Reload logic is only spawned if view is live and visible
     target.start = async (interval) => {
         await target.compose()
-        if (live && !target.id) target.id = setInterval(target.compose, interval)
+        if (live && !target.id)
+            target.id = setInterval(() => {
+                if (document.visibilityState === 'visible') target.compose()
+            }, interval)
     }
     target.stop = () => {
         clearInterval(target.id)
