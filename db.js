@@ -83,4 +83,33 @@ module.exports = {
             console.log(e)
         }
     },
+    // Add process to instances
+    addPid: async (pid) => {
+        try {
+            let res = await db.query(
+                'insert into instances values ($1)',
+                [pid])
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    // Delete process from instances
+    deletePid: async (pid) => {
+        try {
+            let res = await db.query(
+                'delete from instances where id = $1',
+                [pid])
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    // Get count of running instances
+    instances: async () => {
+        try {
+            let res = await db.query('select * from instances')
+            return res.rows.length
+        } catch (e) {
+            console.log(e)
+        }
+    },
 }

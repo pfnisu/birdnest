@@ -5,7 +5,6 @@ const db = require('./db.js')
 const interval = 2000
 const origo = 250000
 const zone = 100000
-let running = false
 
 // Calculate distance from birdnest
 const radius = (x, y) =>
@@ -32,7 +31,7 @@ const getDrones = async () => {
 
 // Add new offenders to db every interval until timeout hits 0
 const update = async (timeout) => {
-    running = true
+    await db.addPid(process.pid)
     console.log(`Daemon started for ${timeout} seconds`)
     timeout = interval / timeout / 10
     // Purge old entries when starting daemon
@@ -40,7 +39,7 @@ const update = async (timeout) => {
     const id = setInterval(async () => {
         if (--timeout < 0) {
             clearInterval(id)
-            running = false
+            await db.deletePid(process.pid)
             console.log('Daemon stopped')
             return
         }
@@ -64,6 +63,6 @@ const update = async (timeout) => {
 }
 
 // Start daemon if not running
-module.exports = (timeout = process.env.TIMEOUT) => {
-    if (!running) update(timeout)
+module.exports = async (timeout = process.env.TIMEOUT) => {
+    if (!await db.instances()) update(timeout)
 }

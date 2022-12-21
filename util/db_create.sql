@@ -15,3 +15,5 @@ create table pilots (
     foreign key(sn) references drones(sn)
         on delete cascade on update cascade
 );
+-- Keep track of running instances
+create table instances (id int primary key);
