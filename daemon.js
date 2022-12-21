@@ -1,7 +1,7 @@
 require('dotenv').config()
 const fs = require('fs')
 const xml = require('xml-js')
-const db = require('./db.js')
+const db = require('./db/write.js')
 const interval = 2000
 const origo = 250000
 const zone = 100000
@@ -29,17 +29,17 @@ const getDrones = async () => {
     })
 }
 
-// Add new offenders to db every interval until timeout hits 0
-const update = async (timeout) => {
-    await db.addPid(process.pid)
+// Start daemon
+module.exports = async (timeout = process.env.TIMEOUT) => {
+    // Purge old entries when starting daemon
+    await db.onStart(process.pid)
     console.log(`Daemon started for ${timeout} seconds`)
     timeout = interval / timeout / 10
-    // Purge old entries when starting daemon
-    await db.purge()
+    // Add new offenders to db every interval until timeout hits 0
     const id = setInterval(async () => {
         if (--timeout < 0) {
             clearInterval(id)
-            await db.deletePid(process.pid)
+            await db.onStop(process.pid)
             console.log('Daemon stopped')
             return
         }
@@ -60,9 +60,4 @@ const update = async (timeout) => {
             console.log(e)
         }
     }, interval)
-}
-
-// Start daemon if not running
-module.exports = async (timeout = process.env.TIMEOUT) => {
-    if (!await db.instances()) update(timeout)
 }

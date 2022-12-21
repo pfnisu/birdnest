@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const fs = require('fs')
 const daemon = require('./daemon.js')
-const db = require('./db.js')
+const db = require('./db/read.js')
 
 const main = async () => {
     try {
@@ -16,7 +16,7 @@ const main = async () => {
 
         // API request starts daemon (if not running) and sends json
         app.get('/api/:query?', async (req, res) => {
-            daemon()
+            if (!await db.instances()) daemon()
             let json = req.params.query === 'coords'
                 ? await db.getCoords()
                 : await db.getPilots()
