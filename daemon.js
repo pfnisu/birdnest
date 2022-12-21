@@ -1,5 +1,4 @@
 require('dotenv').config()
-const fs = require('fs')
 const xml = require('xml-js')
 const db = require('./db/write.js')
 
