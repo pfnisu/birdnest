@@ -10,7 +10,7 @@ const radius = (x, y, origo = 250000) =>
 const getDrones = async (zone = 100000) => {
     let resp = await fetch(`${process.env.URL}drones`)
     let json = xml.xml2js(await resp.text(), {compact: true})
-    return json.report.capture.drone.filter(drone => {
+    return json.report.capture.drone.filter(async (drone) => {
         // Add all detected drones to db
         const data = {
             sn: drone.serialNumber._text,
@@ -19,7 +19,7 @@ const getDrones = async (zone = 100000) => {
             radius: radius(drone.positionX._text, drone.positionY._text),
             dt: json.report.capture._attributes.snapshotTimestamp,
         }
-        db.addDrone(data)
+        await db.addDrone(data)
         // Filter to violating drones
         return data.radius < zone
     })
