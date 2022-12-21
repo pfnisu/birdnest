@@ -2,16 +2,13 @@ require('dotenv').config()
 const fs = require('fs')
 const xml = require('xml-js')
 const db = require('./db/write.js')
-const interval = 2000
-const origo = 250000
-const zone = 100000
 
 // Calculate distance from birdnest
-const radius = (x, y) =>
+const radius = (x, y, origo = 250000) =>
     Math.sqrt((x - origo) ** 2 + (y - origo) ** 2)
 
 // Fetch xml and return array of drones inside no-fly zone
-const getDrones = async () => {
+const getDrones = async (zone = 100000) => {
     let resp = await fetch(`${process.env.URL}drones`)
     let json = xml.xml2js(await resp.text(), {compact: true})
     return json.report.capture.drone.filter(drone => {
@@ -30,7 +27,7 @@ const getDrones = async () => {
 }
 
 // Start daemon
-module.exports = async (timeout = process.env.TIMEOUT) => {
+module.exports = async (timeout = process.env.TIMEOUT, interval = 2000) => {
     // Purge old entries when starting daemon
     await db.onStart(process.pid)
     console.log(`Daemon started for ${timeout} seconds`)
