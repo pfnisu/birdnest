@@ -25,12 +25,15 @@ const main = async () => {
         const server = app.listen(process.env.PORT, process.env.HOST, () => {
             console.log(`Listening ${process.env.HOST}:${process.env.PORT}`)
         })
-        process.on('SIGINT', async () => {
-            server.close(() => {
-                console.log('Server closed')
-                process.exit(1)
-            })
-        })
+        const exit = async (sig) => {
+            // Delete leftover pid
+            await require('./db/write.js').onStop(process.pid)
+            console.log(`Server closed with ${sig}`)
+            server.close(() => process.exit(1))
+        }
+        process.on('SIGINT', exit)
+        process.on('SIGHUP', exit)
+        process.on('SIGTERM', exit)
     } catch (e) {
         console.log(e)
     }
