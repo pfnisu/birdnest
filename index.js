@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const daemon = require('./daemon.js')
 const db = require('./db/read.js')
+const onStop = require('./db/write.js').onStop
 
 const main = async () => {
     try {
@@ -11,7 +12,7 @@ const main = async () => {
             res.header('Access-Control-Allow-Origin', '*')
             next()
         })
-        app.use(express.static('frontend/'))
+        app.use(express.static('build/'))
 
         // API request starts daemon (if not running) and sends json
         app.get('/api/:query?', async (req, res) => {
@@ -27,8 +28,8 @@ const main = async () => {
         })
         const exit = async (sig) => {
             // Delete leftover pid
-            await require('./db/write.js').onStop(process.pid)
-            console.log(`Server closed with ${sig}`)
+            await onStop(process.pid)
+            console.log(`Exiting with ${sig}`)
             server.close(() => process.exit(1))
         }
         process.on('SIGINT', exit)
