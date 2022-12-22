@@ -44,7 +44,7 @@ module.exports = {
     // Delete process from instances
     onStop: async (pid) => {
         try {
-            let res = await db.query(
+            await db.query(
                 'delete from instances where id = $1',
                 [pid])
         } catch (e) {
