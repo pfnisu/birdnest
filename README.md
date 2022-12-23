@@ -28,6 +28,7 @@ Niko Suoniemi <niko@tamperelainen.org>
 * v0.3.0          Add radar view
 * v0.4.0          Save prefs to cookie
 * v0.5.0          Refactor to match requirements more closely
+* v0.6.0          Timing fixes, improved project structure
 
 ## Licence
 
