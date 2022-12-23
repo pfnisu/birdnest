@@ -7,16 +7,16 @@ const db = new Pool({
     user: process.env.DBUSER,
     password: process.env.DBPW,
     database: process.env.DBNAME,
-    max: 20,
+    max: 30,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
     ssl: process.env.DBSSL === 'true' ? true : false,
 })
 
-// Calculate timestamp with limit as minutes before current time
-const timespan = (limit = 10) => {
+// Get timestamp for minutes before current time
+const timespan = (minutes = 10) => {
     let ts = new Date()
-    ts.setMinutes(ts.getMinutes() - limit)
+    ts.setMinutes(ts.getMinutes() - minutes)
     return ts.toISOString()
 }
 
