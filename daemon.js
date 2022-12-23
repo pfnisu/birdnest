@@ -31,7 +31,7 @@ module.exports = async (timeout = process.env.TIMEOUT, interval = 2000) => {
     // Purge old entries when starting daemon
     await db.onStart(process.pid)
     console.log(`Daemon started for ${timeout} seconds`)
-    timeout = interval / timeout / 10
+    timeout = timeout / interval * 1000
     // Add new offenders to db every interval until timeout hits 0
     const id = setInterval(async () => {
         if (--timeout < 0) {
