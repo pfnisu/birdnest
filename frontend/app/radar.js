@@ -13,7 +13,6 @@ export function Radar(root) {
         if (name) ctx.fillText(name, x + radius + 2, y + 6)
     }
     this.compose = async () => {
-        let json = await request.http('api/coords')
         this.tree.innerHTML =
             `<h1>Drone radar</h1>
             <p>Closest position of every detected drone</p>
@@ -24,9 +23,13 @@ export function Radar(root) {
         this.dot(560, 560, '100m', false, 500)
         this.dot(560, 560, '50m', false, 250)
         this.dot(560, 560, 'Monadikuikka')
-        for (const pilot of json) {
-            this.dot((pilot.x - 138000) / 200, (pilot.y - 138000) / 200, pilot.name)
-        }
+        let json = await request.http('api/coords')
+        if (json)
+            for (const pilot of json)
+                this.dot(
+                    (pilot.x - 138000) / 200,
+                    (pilot.y - 138000) / 200,
+                    pilot.name)
         view.compose()
     }
 }

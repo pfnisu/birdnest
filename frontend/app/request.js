@@ -7,18 +7,16 @@ export let request = {
         else match = document.cookie.match(new RegExp(`${key}=([\\d]+)`))
         return match?.length > 1 ? match[1] : null
     },
-    // Fetch wrapper
+    // Fetch as json, null on error
     http: async (resource, method = 'GET') => {
         try {
             let resp = await fetch(resource, {
                 method: method,
                 headers: { 'Content-type': 'application/json' },
             })
-            // Parse as json if expected, else return bool
-            if (resp.ok && resp.status != 204) return await resp.json()
-            return resp.ok
+            if (resp.ok) return await resp.json()
         } catch(e) {
-            console.log(`${method} request failed`)
+            return null
         }
     },
 }
