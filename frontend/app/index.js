@@ -3,25 +3,23 @@ import {Radar} from './radar.js'
 import {Info} from './info.js'
 import {request} from './request.js'
 
-// Define state objects for views
-const main = document.querySelector('main')
-const views = [new List(main), new Radar(main), new Info(main)]
-
-// Construct navigation from view titles
-const tabs = views.map(view => view.title)
 const nav = document.querySelector('nav')
-nav.innerHTML = tabs.reduce((cat, el) => `${cat}<a>${el}</a>`, '')
+const main = document.querySelector('main')
+
+// Define state objects for views
+const views = [new List(main), new Radar(main), new Info(main)]
 
 // Set view to activated tab 
 const setView = (ev) => {
-    for (const v of views) v.stop()
-    for (const c of nav.children) c.className = ''
+    views.forEach((v) => v.stop())
+    // Construct navigation from view titles
+    nav.innerHTML = views.reduce((cat, v) => `${cat}<a>${v.title}</a>`, '')
     const index = ev
-        ? tabs.indexOf(ev.target.textContent)
+        ? views.findIndex((v) => v.title === ev.target.textContent)
         : request.cookie('tab') ?? 0
     nav.children[index].className = 'active'
     document.title = `Birdnest - ${views[index].title}`
-    request.interval = request.cookie('interval') ?? 10000
+    if (!ev) request.interval = request.cookie('interval') ?? 10000
     views[index].start(request.interval)
     request.cookie('tab', index)
 }
