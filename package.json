@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "node .esbuild.js"
   },
   "keywords": [],
   "author": "Niko Suoniemi",
@@ -15,5 +16,8 @@
     "express": "^4.17.3",
     "xml-js": "^1.6.11",
     "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.16.10"
   }
 }
