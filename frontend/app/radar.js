@@ -30,6 +30,6 @@ export function Radar(root) {
                     (pilot.x - 138000) / 200,
                     (pilot.y - 138000) / 200,
                     pilot.name)
-        view.compose()
+        view.mount()
     }
 }

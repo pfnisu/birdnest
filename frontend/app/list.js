@@ -13,7 +13,6 @@ export function List(root) {
             // Stop old interval and start with new frequency
             this.stop()
             this.start(request.cookie('interval', request.interval))
-            this.compose()
         })
         let json = await request.http('api')
         if (json) {
@@ -26,6 +25,6 @@ export function List(root) {
                         ${pilot.name}, ${pilot.phone}, ${pilot.email}</p>`
             }
         } else this.tree.innerHTML = '<p>Connection error. Retrying...</p>'
-        view.compose()
+        view.mount()
     }
 }

@@ -3,7 +3,7 @@ export function View(target, root, title = '', live = true) {
     target.title = title
     target.tree = document.createElement('div')
     // Call from target to replace root tree
-    this.compose = () => {
+    this.mount = () => {
         root.replaceChildren(target.tree)
     }
     // Reload logic is only spawned if view is live and visible
