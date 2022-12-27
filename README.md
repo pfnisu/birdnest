@@ -20,16 +20,18 @@ Niko Suoniemi <niko@tamperelainen.org>
     * PostgreSQL
 * Frontend
     * Vanilla Web Standards
+    * Bundled with esbuild
 
 ## Releases
 
-* v0.1.0          Initial alpha version
-* v0.2.0          Basic features working
-* v0.3.0          Add radar view
-* v0.4.0          Save prefs to cookie
-* v0.5.0          Refactor to match requirements more closely
-* v0.6.0          Timing fixes, improved project structure
+* v0.8.0          Add build script
 * v0.7.0          Error handling, some simplifications
+* v0.6.0          Timing fixes, improved project structure
+* v0.5.0          Refactor to match requirements more closely
+* v0.4.0          Save prefs to cookie
+* v0.3.0          Add radar view
+* v0.2.0          Basic features working
+* v0.1.0          Initial alpha version
 
 ## Licence
 
