@@ -2,7 +2,7 @@ import {View} from './view.js'
 import {request} from './request.js'
 
 export function List(root) {
-    const view = new View(this, root, 'Pilot list')
+    View(this, root, 'Pilot list')
     this.compose = async () => {
         let json = await request.http('api')
         this.tree.innerHTML =
@@ -25,6 +25,5 @@ export function List(root) {
                         ${pilot.name}, ${pilot.phone}, ${pilot.email}</p>`
             }
         } else this.tree.innerHTML = '<p>Connection error. Retrying...</p>'
-        view.mount()
     }
 }

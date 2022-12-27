@@ -2,7 +2,7 @@ import {View} from './view.js'
 import {request} from './request.js'
 
 export function Radar(root) {
-    const view = new View(this, root, 'Radar')
+    View(this, root, 'Radar')
     // Draw a dot representing object on radar
     this.dot = (x, y, name = null, opaque = true, radius = 4) => {
         const ctx = this.canvas.getContext('2d')
@@ -30,6 +30,5 @@ export function Radar(root) {
                     (pilot.x - 138000) / 200,
                     (pilot.y - 138000) / 200,
                     pilot.name)
-        view.mount()
     }
 }

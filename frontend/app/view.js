@@ -2,16 +2,17 @@
 export function View(target, root, title = '', live = true) {
     target.title = title
     target.tree = document.createElement('div')
-    // Call from target to replace root tree
-    this.mount = () => {
+    // Update tree and mount to view
+    const mount = async () => {
+        await target.compose()
         root.replaceChildren(target.tree)
     }
     // Reload logic is only spawned if view is live and visible
     target.start = (interval) => {
-        target.compose()
+        mount()
         if (live && !target.id)
             target.id = setInterval(() => {
-                if (document.visibilityState === 'visible') target.compose()
+                if (document.visibilityState === 'visible') mount()
             }, interval)
     }
     target.stop = () => {
