@@ -29,6 +29,7 @@ Niko Suoniemi <niko@tamperelainen.org>
 * v0.4.0          Save prefs to cookie
 * v0.5.0          Refactor to match requirements more closely
 * v0.6.0          Timing fixes, improved project structure
+* v0.7.0          Error handling, some simplifications
 
 ## Licence
 

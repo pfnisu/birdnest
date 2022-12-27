@@ -20,7 +20,8 @@ const main = async () => {
             let json = req.params.query === 'coords'
                 ? await db.getCoords()
                 : await db.getPilots()
-            res.status(200).json(json.rows)
+            if (json) res.status(200).json(json.rows)
+            else res.status(500).end()
         })
 
         const server = app.listen(process.env.PORT, process.env.HOST, () => {
