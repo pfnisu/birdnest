@@ -11,8 +11,8 @@ const views = [new List(main), new Radar(main), new Info(main)]
 
 // Set view to activated tab 
 const setView = (ev) => {
-    views.forEach((v) => v.stop())
-    // Construct navigation from view titles
+    for (const v of views) v.stop()
+    // Concatenate navigation from view titles
     nav.innerHTML = views.reduce((cat, v) => `${cat}<a>${v.title}</a>`, '')
     const index = ev
         ? views.findIndex((v) => v.title === ev.target.textContent)
