@@ -24,6 +24,7 @@ Niko Suoniemi <niko@tamperelainen.org>
 
 ## Releases
 
+* v0.9.0          Fix flickering content updates
 * v0.8.0          Add build script
 * v0.7.0          Error handling, some simplifications
 * v0.6.0          Timing fixes, improved project structure
